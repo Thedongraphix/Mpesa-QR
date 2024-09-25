@@ -5,7 +5,6 @@ __pycache__/
 # Virtual environment
 venv/
 *.egg-info/
- assets/venv
 
 # Environment variables
 .env
