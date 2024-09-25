@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>MPesa QR Code Generator</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Generate MPesa QR Code</h1>
+        <form id="paymentForm">
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate QR Code</button>
+        </form>
+        <div id="qrCode" class="mt-5"></div>
+    </div>
+
+    <script>
+        document.getElementById('paymentForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('amount').value;
+            const phone = document.getElementById('phone').value;
+
+            const response = await fetch(`/generate_qr/${amount}/${phone}`);
+            const qrCodeImage = await response.blob();
+            const imgElement = document.createElement('img');
+            imgElement.src = URL.createObjectURL(qrCodeImage);
+            document.getElementById('qrCode').innerHTML = '';
+            document.getElementById('qrCode').appendChild(imgElement);
+        };
+    </script>
+</body>
+</html>
